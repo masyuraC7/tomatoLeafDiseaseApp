@@ -1,0 +1,3 @@
+venv/*
+static/imgpred/*
+static/predict/predict_apple.zip
