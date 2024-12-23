@@ -1,113 +1,109 @@
-$(document).ready(function () {
-    newLiveFeed()
-    let text = ""
-    let downloadImgText = ""
+// Pastikan text dan downloadImgText diinisialisasi
+var text = "";
+var downloadImgText = "";
+var newData = [];
 
-    function newLiveFeed() {
-        $('#videoLiveFeed').empty();
-        let htmlLiveFeed = document.getElementById('video-feed1').cloneNode(true);
-        htmlLiveFeed.id = "video-feed";
-        document.getElementById('videoLiveFeed').appendChild(htmlLiveFeed);
-        $('#video-feed').removeClass('hidden');
-    }
+// Inisialisasi DataTable
+var table = $("#datatable-results").DataTable();
 
-    $("#btnDownloadConnect").click(function (e) {
-        e.preventDefault();
-        $("#formDownloadPred").submit();
+// Format data agar sesuai dengan DataTable
+function updateTable(data) {
+  // Hapus data lama
+  table.clear();
+
+  // Tambahkan data baru
+  table.rows.add(
+    data.map((item) => {
+      return [
+        item.index, // Kolom No
+        item.filename, // Kolom Filename
+        item.predict, // Kolom Prediction
+        // `<a href="${item.image_path}" target="_blank">View Image</a>` // Kolom Image Path
+      ];
     })
+  );
 
-    function imagePathController(item, index) {
-        downloadImgText += "<input name='img_results[]' type='hidden' value='" + item + "'>"
-        text += "<div class='col-md-6'><div class='img-container text-center'><img class='img-fluid' style='max-height: 400px;'src='" + item + "' alt='Results" + index + "'></div></div>";
-    }
+  // Refresh tampilan tabel
+  table.draw();
+}
 
-    function cloneSuccessAlert() {
-        let cloneAlert = document.getElementById('alertSuccess').cloneNode(true);
-        cloneAlert.id = "alertSuccessClone";
-        document.getElementById('alertNotify').appendChild(cloneAlert);
-    }
+$("#formPredict").submit(function (e) {
+  e.preventDefault();
 
-    $("#formImgPred").submit(function (e) {
-        e.preventDefault();
-        if (text != "") {
-            text = ""
-            $("#btnPredResults").addClass("hidden");
-        }
+  var urlPred = $("#formPredict").attr("action");
 
-        var urlPred = $("#formImgPred").attr("action")
-
-        $.ajax({
-            url: urlPred,
-            type: "POST",
-            data: new FormData(this),
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                if (data['success'] == true) {
-                    var domModal = document.getElementById('modalBodyImgPred');
-                    var images = data['img_results']
-                    images.forEach(imagePathController);
-                    // Apple Counting
-                    text += "<div class='col-md-6'><div class='ml-2'><p>Jumlah Gambar: " + data['n_images'] + "</p><p>Jumlah Fresh Apple: " + data['fa_apple'] + "</p><p>Jumlah Stale Apple: " + data['sa_apple'] + "</p><p>Total Apple: " + data['n_apple'] + "</p> <form id='formDownloadPred' action='/predict_download' method='post'>" + downloadImgText + "<button class='btn btn-success' type='submit'>Download Prediction Results</button></form></div></div>"
-                    // Write text to modal
-                    domModal.innerHTML = text;
-                    $("#btnImgSubmit").addClass("hidden");
-                    $("#btnPredResults").removeClass("hidden")
-                    $("#imagesInput").attr("disabled", true);
-                    cloneSuccessAlert()
-                    $('#alertSuccessClone').addClass("show")
-                } else {
-                    alert(data['error']);
-                }
-            },
-            error: function (data) {
-                alert("Something Wrong!" + data);
-            }
+  $.ajax({
+    url: urlPred,
+    type: "POST",
+    data: new FormData(this),
+    cache: false,
+    processData: false,
+    contentType: false,
+    beforeSend: function () {
+      // Tampilkan loading animation sebelum proses dimulai
+      $("#loading").show();
+    },
+    success: function (data) {
+      if (data["success"] == true) {
+        var domDownload = document.getElementById("formDownload");
+        var domResults = document.getElementById("statistik_result");
+        var detection_results = data["detection_results"];
+        detection_results.forEach((detect) => {
+          newData.push({
+            index: detect.index,
+            filename: detect.filename,
+            predict: detect.predict,
+          });
+          downloadImgText +=
+            "<input name='img_results[]' type='hidden' value='" +
+            detect.image_path +
+            "'>";
         });
-    });
+        updateTable(newData);
 
-    $('#btnResetImgPred').click(function (e) {
-        text = ""
-        downloadImgText = ""
-        $("#btnPredResults").addClass("hidden");
-        $("#btnImgSubmit").removeClass("hidden");
-        $("#imagesInput").attr("disabled", false);
-        $("#alertSuccessClone").alert('close');
-    });
+        downloadImgText += "<button style='margin-top: 10px; margin-bottom: 20px;' class='btn btn-success' type='submit'>Download Prediction Results</button>";
 
-    $('#myModal').on('shown.bs.modal', function () {
-        $('#myInput').focus()
-    })
+        text +=
+          "<ul><li>Total Data: <span>" +
+          data["n_images"] +
+          "</span></li><li>Bacterial Spot: <span>" +
+          data["bacterial_spot"] +
+          "</span></li><li>Early Blight: <span>" +
+          data["early_blight"] +
+          "</span></li><li>Healthy: <span>" +
+          data["healthy"] +
+          "</span></li><li>Late Blight: <span>" +
+          data["late_blight"] +
+          "</span></li><li>Leaf Miner: <span>" +
+          data["leaf_miner"] +
+          "</span></li><li>Leaf Mold: <span>" +
+          data["leaf_mold"] +
+          "</span></li><li>Mosaic Virus: <span>" +
+          data["mosaic_virus"] +
+          "</span></li><li>Septoria Leaf Spot: <span>" +
+          data["septoria"] +
+          "</span></li><li>Spider Mites: <span>" +
+          data["spider_mites"] +
+          "</span></li><li>Yellow Leaf Curl Virus: <span>" +
+          data["yellow_leaf_curl_virus"] +
+          "</span></li><li>No Identity: <span>" +
+          data["no_identity"] +
+          "</span></li></ul>";
 
-    // realtime function
-    $('#btnStartCamera').click(function () {
-        startCamera();
-    })
+        domDownload.innerHTML = downloadImgText;
+        domResults.innerHTML = text;
 
-    $('#btnStopCamera').click(function () {
-        stopCamera();
-    })
-
-    function startCamera() {
-        fetch('/start_camera', { method: 'POST' })
-            .then(response => {
-                if (response.ok) {
-                    document.getElementById('video-feed').src = '/video_feed';
-                } else {
-                    alert('Failed to start camera.');
-                }
-            });
-    }
-
-    function stopCamera() {
-        fetch('/stop_camera', { method: 'POST' })
-            .then(response => {
-                if (response.ok) {
-                    newLiveFeed();
-                } else {
-                    alert('Failed to stop camera.');
-                }
-            });
-    }
+        swal("Berhasil!", "Proses Deteksi Berhasil!", "success");
+      } else {
+        swal("Error!", data["error"], "error");
+      }
+    },
+    error: function (data) {
+        swal("Error!", data, "error");
+    },
+    complete: function () {
+      // Sembunyikan loading animation setelah respons diterima
+      $("#loading").hide();
+    },
+  });
 });
