@@ -1,586 +1,408 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Disease Detection in Tomato Plant Leaves"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <title>Home Page | Disease Detection in Tomato Plant Leaves</title>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with LeadMark landing page.">
-    <meta name="author" content="Devcrud">
+    <!-- Start favicon ico -->
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='assets/images/leaf_logo.png') }}"
+      type="image/x-icon"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="{{ url_for('static', filename='assets/images/leaf_logo.png') }}"
+    />
+    <!-- End favicon ico -->
 
-    <title>AQUADATING</title>
+    <!-- Start global css -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/global/plugins/Waves/dist/waves.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/global/plugins/bootstrap/dist/css/bootstrap.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/icons_fonts/font-awesome/css/font-awesome.min.css')}}"
+    />
+    <!-- End global css -->
 
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='assets/imgs/logo.svg') }}">
-    <!-- font icons -->
-    <link rel="stylesheet"
-        href="{{ url_for('static', filename='assets/vendors/themify-icons/css/themify-icons.css') }}">
-    <!-- Bootstrap + LeadMark main styles -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/leadmark.css') }}">
-    <!-- fontawesome -->
-    <link href="{{ url_for('static', filename='assets/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <!-- Start page plugin css -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/global/plugins/animate.css/animate.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/global/plugins/sweetalert2/dist/sweetalert2.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/global/plugins/datatables/media/css/dataTables.bootstrap.min.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/global/plugins/datatables/media/css/jquery.dataTables.min.css')}}"
+    />
+    <!-- End page plugin css -->
+
+    <!-- Start template global css -->
+    <link
+      href="{{ url_for('static', filename='assets/assets/global/css/components.min.css')}}"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <!-- End template global css -->
+
+    <!-- Start layout css -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/layouts/layouts_left_menu/left_menu_layout.min.css')}}"
+    />
+    <!-- End layout css -->
+
     <style>
-        .hidden {
-            display: none;
-        }
+      .nav-medium .medium-logo {
+        display: flex;
+      }
 
-        .video-container {
-            width: 100%;
-            margin: auto;
-        }
+      .medium-logo img,
+      .medium-logo h5 {
+        align-content: center;
+      }
 
-        .live-feed {
-            width: 100%;
-            height: auto;
-            max-height: 400px;
-            object-fit: contain;
-        }
+      .medium-logo img {
+        width: 30px !important;
+        height: 30px !important;
+      }
 
-        #team .member .pic {
-            height: auto;
-            max-height: 260px;
-        }
+      /* Styling untuk overlay loading */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
 
-        #team .member .pic .emoji {
-            font-style: normal;
-            font-size: 150px;
-            line-height: 1;
-            display: block;
-            transform: rotate(0deg);
-        }
+      /* Styling spinner */
+      .spinner {
+        border: 8px solid rgba(255, 255, 255, 0.3);
+        border-top: 8px solid white;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
 
-        .section.section-footer {
-            padding: 0;
-        }
+      .loading-text {
+        margin-top: 20px;
+        color: white;
+      }
 
-        .footer-area {
-            padding: 60px 0;
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
         }
-
-        .smooth>.smooth-link:hover,
-        .nav-item>.nav-link:hover {
-            color: #45CBC8 !important;
+        100% {
+          transform: rotate(360deg);
         }
+      }
     </style>
-</head>
+  </head>
+  <body class="nav-medium">
+    <div class="container body">
+      <div class="main_container">
+        <!-- Start Loader -->
+        <div class="page-loader">
+          <div class="preloader loading">
+            <span class="slice"></span>
+            <span class="slice"></span>
+            <span class="slice"></span>
+            <span class="slice"></span>
+            <span class="slice"></span>
+            <span class="slice"></span>
+          </div>
+        </div>
+        <!-- End Loader -->
 
-<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+        <!-- Start Scroll Top -->
+        <a href="javascript:" id="scroll" style="display: none"
+          ><span></span
+        ></a>
+        <!-- End Scroll Top -->
 
-    <!-- page Navigation -->
-    <nav class="navbar custom-navbar navbar-expand-md navbar-light fixed-top" data-spy="affix" data-offset-top="10">
-        <div class="container">
-            <a class="navbar-brand" href="#home">
-                <img src="{{ url_for('static', filename='assets/imgs/logo.svg') }}" alt="">
-            </a>
-            <a class="nav-item" href="#home">&#160; AQUADATING</a>
-            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
-                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#Home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#AboutUs">AboutUs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#service">Service</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#aplikasi">Aplikasi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#team">Team</a>
-                    </li>
+        <!-- start Left Menu-->
+        <div class="col-md-3 left_color">
+          <div class="left_color scroll-view">
+            <div class="navbar nav_title">
+              <a href="/dashboard" class="medium-logo d-flex">
+                <img
+                  width="20px"
+                  src="{{ url_for('static', filename='assets/images/leaf_logo.png')}}"
+                  alt="medium-logo"
+                />
+                <h5 style="color: white">Tomato Leaf Guard</h5>
+              </a>
+              <a href="/dashboard" class="small-logo">
+                <img
+                  src="{{ url_for('static', filename='assets/images/leaf_logo.png')}}"
+                  alt="small-logo"
+                />
+              </a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- sidebar menu -->
+            <div
+              id="sidebar-menu"
+              class="main_menu_side hidden-print main_menu"
+            >
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                  <li class="current-page">
+                    <a class="waves-effect waves-light" href="/dashboard"
+                      ><i class="fa fa-home"></i> Dashboard</a
+                    >
+                  </li>
                 </ul>
+              </div>
             </div>
-        </div>
-    </nav>
-    <!-- End Of Second Navigation -->
+            <!-- /sidebar menu -->
 
-    <!-- Page Header -->
-    <header class="header" id="Home">
-        <div class="overlay">
-            <h1 class="title">AQUADATING</h1>
-            <h1 class="subtitle">Apple Quality Detection with Automatic Counting</h1>
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="">
+                <span
+                  style="visibility: collapse"
+                  class="fa fa-cog"
+                  aria-hidden="true"
+                ></span>
+              </a>
+              <a
+                class="toggle-fullscreen"
+                data-toggle="tooltip"
+                data-placement="top"
+                title=""
+              >
+                <span
+                  style="visibility: collapse"
+                  class="fa fa-arrows-alt"
+                  aria-hidden="true"
+                ></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="">
+                <span
+                  style="visibility: collapse"
+                  class="fa fa-lock"
+                  aria-hidden="true"
+                ></span>
+              </a>
+              <a
+                data-toggle="tooltip"
+                data-placement="top"
+                title="Logout"
+                href="/"
+              >
+                <span class="fa fa-power-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
         </div>
-        <div class="shape">
-            <svg viewBox="0 0 1500 200">
-                <path
-                    d="m 0,240 h 1500.4828 v -71.92164 c 0,0 -286.2763,-81.79324 -743.19024,-81.79324 C 300.37862,86.28512 0,168.07836 0,168.07836 Z" />
-            </svg>
-        </div>
+        <!-- End Left Menu -->
 
-        <div class="mouse-icon smooth">
-            <a class="nav-link smooth-link" href="#AboutUs">Read More</a>
+        <!-- start top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                <div class="responsive-logo">
+                  <a href="/dashboard">
+                    <img
+                      src="{{ url_for('static', filename='assets/images/leaf_logo.png')}}"
+                      alt="main-logo"
+                    />
+                  </a>
+                </div>
+              </div>
+            </nav>
+          </div>
         </div>
-    </header>
-    <!-- End Of Page Header -->
+        <div class="clearfix"></div>
+        <!-- End top navigation -->
 
-    <!-- About Section -->
-    <section class="section" id="AboutUs">
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-6 pr-md-5 mb-4 mb-md-0">
-                    <h6 class="section-title mb-0">AQUADATING</h6>
-                    <h6 class="section-subtitle mb-4">
-                        Apple Quality Detection with Automatic Counting
-                    </h6>
+        <!-- Start Contain Section -->
+        <div class="container-fluid right_color">
+          <div class="page-main-header">
+            <!-- Page Title -->
+            <h2 class="page-name-title">Dashboard</h2>
+            <!--  Breadcrumb -->
+            <ol class="breadcrumb">
+              <li class="active">Dashboard</li>
+            </ol>
+          </div>
+
+          <div class="contain-section">
+            <div class="contain-inner-section">
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <div class="section-header">
+                    <h2>Tomato Leaf Disease Detection</h2>
                     <p>
-                        Merupakan aplikasi berbasis web yang mengadopsi teknologi <b>Deep Learning</b>
-                        khususnya domain <b>Computer Vision</b>. Aplikasi <b>AQUADATING</b> bertujuan
-                        untuk mendeteksi kualitas dan menghitung buah apel secara <i>realtime</i>. Aplikasi ini
-                        dirancang
-                        untuk membantu industri buah apel dalam memastikan kualitas yang optimal dan efisien
-                        dalam proses penghitungan dan sortir.
+                      Upload your image and start detection to know the disease!
                     </p>
-                    <img src="{{ url_for('static', filename='assets/imgs/about.jpg') }}" alt=""
-                        class="w-100 mt-2 shadow-sm">
-                </div>
-                <div class="col-md-6 pl-md-5">
+                  </div>
+                  <div class="section-body">
                     <div class="row">
-                        <div class="col-6">
-                            <img src="{{ url_for('static', filename='assets/imgs/apple_fresh.jpg') }}" alt=""
-                                class="w-100 shadow-sm">
-                        </div>
-                        <div class="col-6">
-                            <img src="{{ url_for('static', filename='assets/imgs/apple_stole.jpg') }}" alt=""
-                                class="w-100 shadow-sm">
-                        </div>
-                        <div class="col-12 mt-4">
-                            <p>
-                                Indonesia dengan iklim tropis dan tanah yang subur merupakan negara
-                                yang ideal untuk menanam berbagai jenis tanaman. Salah satunya adalah
-                                buah apel yang biasanya tumbuh di daerah beriklim sejuk seperti dataran
-                                tinggi dan pegunungan. Berdasarkan data Badan Pusat Statistika (BPS)
-                                Tahun 2022, produksi apel di Indonesia mencapai 523.596 ton, dengan
-                                produksi terbesar terjadi diprovinsi Jawa Timur. Hasil produksi yang
-                                melimpah ini dimanfaatkan untuk berbagai produk olahan dari buah apel.
-                                Sehingga pengelolaan hasil panen buah apel membutuhkan kualitas buah
-                                yang baik agar produk olahan juga memiliki kualitas yang terjamin.
-                            </p>
-                            <p>
-                                Metode konvensional yang saat digunakan yaitu melakukan pensortiran
-                                buah apel dengan penglihatan manusia berdasarkan bentuk fisik.
-                                Namun, metode ini masih memiliki beberapa kekurangan yaitu proses
-                                pencatatan secara manual sering kali menghasilkan penghitungan yang
-                                tidak akurat bahkan dapat menyebabkan pemborosan biaya tenaga kerja
-                                yang tinggi. Hal ini dapat menyebabkan ketidakpuasan dan menurunkan
-                                loyalitas pelanggan produksi buah apel.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End OF About Section -->
+                      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <h3>Kriteria File Yang Bisa Diupload</h3>
+                                <h3>File Gambar</h3>
+                                <ul>
+                                    <li>File type: jpg, png, webp, jpeg</li>
+                                    <li>Max file size: 10mb</li>
+                                    <li>Min file upload: 1</li>
+                                </ul>
 
-    <!-- Service Section -->
-    <section class="section" id="service">
-        <div class="container">
-            <h6 class="section-title text-center">Our Service</h6>
-            <h6 class="section-subtitle text-justify mb-5 pb-3">
-                <b>AQUADATING</b> merupakan model machine learning yang dapat mendeteksi kualitas
-                buah apel (<b>Fresh Apple / Stale Apple</b>) dan menghitung jumlahnya.
-                Solusi ini dirancang untuk menghasilkan output di atas dengan cara
-                mengenali citra buah apel dari input data oleh pengguna. Solusi ini dibuat
-                untuk menggantikan proses manual yang selama ini dilakukan.
-                <b>AQUADATING</b> menyediakan tiga fitur utama yaitu <b>Image Detection</b>,
-                <b>Real-time Detection</b> dan <b>Automatic Counting</b>.
-            </h6>
-
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card mb-4 mb-lg-0 h-100">
-                        <div class="card-body">
-                            <small class="text-primary font-weight-bold">01</small>
-                            <h5 class="card-title mt-3">Image Detection</h5>
-                            <p class="mb-0">
-                                Fitur <b>AQUADATING</b> yang menggunakan teknologi machine learning
-                                untuk menganalisis gambar apel yang diunggah pengguna untuk mendeteksi
-                                kualitas buah apel dengan mengklasifikasikan kualitas buah.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card mb-4 mb-lg-0 h-100">
-                        <div class="card-body">
-                            <small class="text-primary font-weight-bold">02</small>
-                            <h5 class="card-title mt-3">Real-time Detection</h5>
-                            <p class="mb-0">
-                                Fitur <b>AQUADATING</b> yang menggunakan teknologi machine learning
-                                untuk mendeteksi kualitas buah apel dengan mengklasifikasikan kualitas
-                                buah menggunakan live camera secara realtime.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="card mb-4 mb-lg-0 h-100">
-                        <div class="card-body">
-                            <small class="text-primary font-weight-bold">03</small>
-                            <h5 class="card-title mt-3">Automatic Counting</h5>
-                            <p class="mb-0">
-                                Fitur <b>AQUADATING</b> yang dirancang untuk menghitung jumlah apel secara
-                                otomatis dan akurat. Fitur ini menggantikan metode manual yang sering kali
-                                tidak akurat dan memakan waktu. Sehingga hasil pemeriksaan
-                                dapat diterima oleh user dalam waktu yang lebih cepat.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End OF Service Section -->
-
-    <!-- Aplikasi Section -->
-    <section id="aplikasi" class="section portfolio-section">
-        <div class="container">
-            <h6 class="section-title text-center">Our Project</h6>
-            <h6 class="section-subtitle mb-5 text-center">
-                Object Detection - Apple Detection (Fresh / Stale)
-            </h6>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5>Apple Object Detection (Fresh / Stale)</h5>
-                        <h5>Features: </h5>
-                        <ul>
-                            <li>Object Detection With Image Upload(Single / Multiple)</li>
-                            <li>Display Image Object Detection Results</li>
-                            <li>Download Image Object Detection Results <i class="bi-check-lg text-success"></i></li>
-                            <li>Realtime Object Detection With Camera</li>
-                            <li>Apple Counting</i></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="nav nav-pills" role="tablist">
-                            <li role="presentation" class="nav-item">
-                                <a href="#tab-01" class="nav-link active" aria-controls="tab-01" role="tab"
-                                    data-toggle="tab">
-                                    With Image
-                                </a>
-                            </li>
-                            <li role="presentation" class="nav-item">
-                                <a href="#tab-03" class="nav-link" aria-controls="tab-03" role="tab" data-toggle="tab">
-                                    With Live Camera
-                                </a>
-                            </li>
-                        </ul>
-
-                        <div class="tab-content mt-3">
-                            <div role="tabpanel" class="tab-pane active" id="tab-01">
-                                <form id="formImgPred" action="/imgpred" method="post" enctype="multipart/form-data">
-                                    <h4>Upload your apple image</h4>
-                                    <div class="row mt-2">
-                                        <div class="col-md-12">
-                                            <input name="images[]" class="form-control" type="file" id="imagesInput"
-                                                accept="image/*" required multiple>
-                                        </div>
-                                        <div class="col-md-12 mt-3">
-                                            <button type="submit" class="btn btn-primary" id="btnImgSubmit">
-                                                Upload Image
-                                            </button>
-
-                                            <button type="reset" class="btn btn-danger ml-3" id="btnResetImgPred">
-                                                Reset
-                                            </button>
-
-                                            <!-- modal -->
-                                            <button type="button" id="btnPredResults"
-                                                class="btn btn-primary ml-3 hidden" data-toggle="modal"
-                                                data-target="#myModal">
-                                                Predict Results
-                                            </button>
-                                        </div>
-                                        <div class="col-md-12 mt-3" id="alertNotify"></div>
-                                    </div>
-                                </form>
+                                <h3>File Zip</h3>
+                                <ul>
+                                    <li>File type: zip</li>
+                                    <li>Max file size: 10mb</li>
+                                    <li>Max file upload: 1</li>
+                                    <li>Format path: folder/image.jpg</li>
+                                </ul>
                             </div>
-                            <!-- realtime detection -->
-                            <div role="tabpanel" class="tab-pane" id="tab-03">
-                                <h4>Directly Detect Apple With Your Camera</h4>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <img class="live-feed hidden" id="video-feed1"
-                                            src="{{ url_for('static', filename='assets/imgs/header.jpg') }}"
-                                            alt="Real time camera">
-                                        <div id="videoLiveFeed" class="video-container"></div>
-                                    </div>
-                                    <hr>
-                                    <div class="col-md-12 mt-4">
-                                        <button id="btnStartCamera" class="btn btn-primary">Start Camera</button>
-                                        <button id="btnStopCamera" class="btn btn-danger">Stop Camera</button>
-                                    </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <form action="/predict_download" method="post" id="formDownload"></form>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="section-header">
+                                    <h2>Statistik Hasil Deteksi</h2>
+                                </div>
+                                <div id="statistik_result">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </div>
-    </section>
-    <!-- End of Aplikasi section -->
-
-    <!-- alert success predict -->
-    <div id="alertSuccess" class="alert alert-success alert-dismissible fade" role="alert">
-        <strong>Prediction success!</strong> Check on the Predict Results
-        Button!.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
-    <!-- Modal Image Prediction Results -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Predict Results</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row" id="modalBodyImgPred"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button id="btnDownloadConnect" type="button" class="btn btn-primary">Download Results</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Company Logo Carousel -->
-    <div class="logo-carousel-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="logo-carousel-inner">
-                        <div class="single-logo-item">
-                            <img src="{{ url_for('static', filename='assets/imgs/company-logos/1.jpg') }}" alt="">
-                        </div>
-                        <div class="single-logo-item">
-                            <img src="{{ url_for('static', filename='assets/imgs/company-logos/2.png') }}" alt="">
-                        </div>
-                        <div class="single-logo-item">
-                            <img src="{{ url_for('static', filename='assets/imgs/company-logos/3.png') }}" alt="">
-                        </div>
-                        <div class="single-logo-item">
-                            <img src="{{ url_for('static', filename='assets/imgs/company-logos/4.png') }}" alt="">
-                        </div>
-                        <div class="single-logo-item">
-                            <img src="{{ url_for('static', filename='assets/imgs/company-logos/5.png') }}" alt="">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <!-- end Company Logo Carousel -->
-
-    <!-- Team Section -->
-    <section id="team">
-        <div class="container wow fadeInUp">
-            <div class="section-header">
-                <h3 class="section-title text-center">Our Team</h3>
-                <p class="section-description text-center">
-                    Our team is composed of talented and dedicated professionals, each
-                    bringing their unique expertise to drive our success. Get to know the individuals who make our
-                    company thrive
-                </p>
-            </div>
-            <div class="row mt-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="member">
-                        <div class="pic"><span class="emoji">👨‍💻</span></div>
-                        <h4> Bagus Dwi Prasetya</h4>
-                        <span>Modeling & Evaluation</span>
-                        <div class="social">
-                            <a href=""><i class="fa fa-whatsapp"></i></a>
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-google-plus"></i></a>
-                            <a href=""><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="member">
-                        <div class="pic"><span class="emoji">👩‍💻</span></div>
-                        <h4> Risma Dwi Zulianti</h4>
-                        <span>Data Aqusition</span>
-                        <div class="social">
-                            <a href=""><i class="fa fa-whatsapp"></i></a>
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-google-plus"></i></a>
-                            <a href=""><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="member">
-                        <div class="pic"><span class="emoji">👩‍💻</span></div>
-                        <h4>Natasya Nur Hadiyanti</h4>
-                        <span>Modeling & Evaluation</span>
-                        <div class="social">
-                            <a href=""><i class="fa fa-whatsapp"></i></a>
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-google-plus"></i></a>
-                            <a href=""><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-6">
-                    <div class="member">
-                        <div class="pic"><span class="emoji">👩‍💻</span></div>
-                        <h4>Dellya Dievha</h4>
-                        <span>Data Exploration</span>
-                        <div class="social">
-                            <a href=""><i class="fa fa-whatsapp"></i></a>
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-google-plus"></i></a>
-                            <a href=""><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <div class="member">
-                        <div class="pic"><span class="emoji">👨‍💻</span></div>
-                        <h4>Satria Dioufan Artha Desanta</h4>
-                        <span>UI/UX Designer</span>
-                        <div class="social">
-                            <a href=""><i class="fa fa-whatsapp"></i></a>
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-google-plus"></i></a>
-                            <a href=""><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="member">
-                        <div class="pic"><span class="emoji">👨‍💻</span></div>
-                        <h4> Masyura Fanni R.</h4>
-                        <span>Deployment</span>
-                        <div class="social">
-                            <a href=""><i class="fa fa-whatsapp"></i></a>
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-google-plus"></i></a>
-                            <a href=""><i class="fa fa-linkedin"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- end team section -->
-
-    <!-- Contact Section -->
-    <section id="contact" class="section has-img-bg section-footer pb-0">
-        <div class="container">
-            <!-- footer -->
-            <div class="footer-area">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6">
-                            <div class="footer-box about-widget">
-                                <h2 class="widget-title">About us</h2>
-                                <p> Temukan solusi untuk mendeteksi kualitas apel dan menghitung jumlahnya secara
-                                    otomatis.
-
-                                    Bergabunglah dengan kami untuk meningkatkan efisiensi produksi.</p>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="footer-box get-in-touch">
-                                <h2 class="widget-title">Get in Touch</h2>
-                                <ul>
-                                    <li>Suarabaya, Jawa Timur</li>
-                                    <li>aquadating@gmail.com</li>
-                                    <li>+62 1111 2222 3333</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="footer-box pages">
-                                <h2 class="widget-title">Pages</h2>
-                                <ul>
-                                    <li class="smooth">
-                                        <a class="smooth-link" href="#home">Home</a>
-                                    </li>
-                                    <li class="smooth">
-                                        <a class="smooth-link" href="#AboutUs">AboutUs</a>
-                                    </li>
-                                    <li class="smooth">
-                                        <a class="smooth-link" href="#service">Service</a>
-                                    </li>
-                                    <li class="smooth">
-                                        <a class="smooth-link" href="#aplikasi">Aplikasi</a>
-                                    </li>
-                                    <li class="smooth">
-                                        <a class="smooth-link" href="#team">Team</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="footer-box subscribe">
-                                <h2 class="widget-title">Subscribe</h2>
-                                <p>Subscribe to our mailing list to get the latest updates.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- end footer -->
-
-            <!-- Page Footer -->
-            <footer class="mt-5 py-4 border-top border-secondary">
-                <!-- copyright -->
-                <div class="copyright">
-                    <div class="container">
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="row">
-                            <div class="col-lg-6 col-md-12">
-                                <p>Copyrights &copy; 2024 - <a href="#">Across Borders</a>, All
-                                    Rights Reserved.</p>
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <form
+                              id="formPredict"
+                              action="/predict"
+                              method="post"
+                              enctype="multipart/form-data"
+                            >
+                              <label>Upload Your Files</label>
+                              <div class="form-group file-control-upload">
+                                <input
+                                  class="form-control"
+                                  type="file"
+                                  multiple="multiple"
+                                  name="images[]"
+                                  accept="image/*"
+                                />
+                              </div>
+
+                              <div class="form-group">
+                                <button
+                                  type="submit"
+                                  class="btn btn-primary btn-outline float-button-light waves-effect waves-button waves-float waves-light"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="section-header">
+                              <h2>Tabel Hasil Deteksi</h2>
                             </div>
-                        </div>
+                            <div class="section-body">
+                              <table
+                                id="datatable-results"
+                                class="display datatable-default"
+                              >
+                                <thead>
+                                  <tr>
+                                    <th>No</th>
+                                    <th>Images</th>
+                                    <th>Hasil Deteksi</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="result_tbody">
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-                <!-- end copyright -->
-            </footer>
-            <!-- End of Page Footer -->
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+        <!-- End Contain Section -->
 
-    <!-- core  -->
-    <script src="{{ url_for('static', filename='assets/vendors/jquery/jquery-3.4.1.js') }}"></script>
-    <script src="{{ url_for('static', filename='assets/vendors/bootstrap/bootstrap.bundle.js') }}"></script>
+        <!-- Start Footer Section -->
+        <footer class="footer">
+          © 2024 All rights reserved. Template designed by
+          <a class="text-primary" href="https://github.com/masyuraC7"
+            >masyuraC7</a
+          >
+        </footer>
+        <!-- End Footer Section -->
+      </div>
+    </div>
 
-    <!-- bootstrap 3 affix -->
-    <script src="{{ url_for('static', filename='assets/vendors/bootstrap/bootstrap.affix.js') }}"></script>
+    <div id="loading" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <div class="loading-text">Please wait a moment, still predicting your image!</div>
+    </div>    
 
-    <!-- Isotope -->
-    <script src="{{ url_for('static', filename='assets/vendors/isotope/isotope.pkgd.js') }}"></script>
+    <!-- Start core js -->
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/Waves/dist/waves.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/screenfull.js/dist/screenfull.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
+    <!-- Start core javascript -->
 
-    <!-- LeadMark js -->
-    <script src="{{ url_for('static', filename='assets/js/leadmark.js') }}"></script>
+    <!-- Start global js -->
+    <script src="{{ url_for('static', filename='assets/assets/global/js/left-menu.min.js')}}"></script>
+    <!-- End global js -->
 
-    <!-- function.js -->
-    <script src="{{ url_for('static', filename='assets/js/function.js') }}"></script>
-</body>
+    <!-- Start page plugin js -->
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/sweetalert2/dist/sweetalert2.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/assets/global/js/sweetalert.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/datatables/media/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='assets/assets/global/js/datatable.min.js')}}"></script>
+    <!-- End page js -->
 
+    <script src="{{ url_for('static', filename='assets/js/function.js')}}"></script>
+  </body>
 </html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="description"
+      content="Disease Detection in Tomato Plant Leaves"
+    />
+    <meta name="viewport" content="width=device-width" />
+    <title>Landing Page | Disease Detection in Tomato Plant Leaves</title>
+
+    <!-- Start favicon ico -->
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='assets/images/leaf_logo.png') }}"
+      type="image/x-icon"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="192x192"
+      href="{{ url_for('static', filename='assets/images/leaf_logo.png') }}"
+    />
+    <!-- End favicon ico -->
+
+    <!-- Start global css -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/global/plugins/bootstrap/dist/css/bootstrap.min.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/assets/icons_fonts/font-awesome/css/font-awesome.min.css') }}"
+    />
+    <!-- End global css -->
+
+    <!-- Start page global css -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='assets/css/landing_custom.css') }}"
+    />
+    <!-- End page global css -->
+
+    <!-- Start layout css -->
+    <style>
+      .header-main-bg .logo img {
+        width: 120px;
+      }
+      .header-main-bg {
+        padding: 120px 0;
+      }
+    </style>
+    <!-- End layout css -->
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="main-content">
+        <div class="page-main-header header-main-bg">
+          <div class="container">
+            <div class="logo">
+              <img
+                width="30"
+                src="{{ url_for('static', filename='assets/images/leaf_logo.png')}}"
+                alt="logo"
+              />
+              <h2 class="logo-text" style="color: white;">Tomato Leaf Guard</h2>
+            </div>
+            <p class="version">Version 1.0</p>
+            <h2 class="header-text">
+              Disease Detection in Tomato Plant Leaves <br />
+              With YOLOv11
+            </h2>
+            <div class="use-icon">
+              <a class="btn btn-primary btn-lg" href="/dashboard"
+                >Start Detection Now!!!</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Start Footer Section -->
+    <footer class="footer">
+      © 2024 All rights reserved. Template designed by
+      <a class="text-primary" href="https://github.com/masyuraC7">masyuraC7</a>
+    </footer>
+    <!-- End Footer Section -->
+
+    <!-- Start core js -->
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/assets/global/plugins/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- Start core javascript -->
+  </body>
+</html>

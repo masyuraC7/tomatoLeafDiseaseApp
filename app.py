@@ -10,11 +10,15 @@ app.static_folder = 'static'
 model = YOLO(r'best.pt')
 
 @app.route("/")
-def home():
+def landing_page():
+    return render_template("landing_page.html")
+
+@app.route("/dashboard")
+def index():
     return render_template("index.html")
 
 @app.route('/predict', methods=['GET', 'POST'])
-def index():
+def predict():
     if request.method == 'POST':
         if 'images[]' not in request.files:
             message = {
@@ -22,7 +26,7 @@ def index():
                 'success': False
             }
             return jsonify(message)
-        if request.files['images[]'].filename == '':
+        elif request.files['images[]'].filename == '':
             message = {
                 'error': "No image selected!",
                 'success': False
@@ -44,57 +48,75 @@ def index():
         no_identity = 0
 
         img_path = "static/predict/img/"
-        img_results = []
+        detection_result = []
+        predict = []
 
         files = request.files.getlist('images[]')
 
-        for i, file in files:
+        for i, file in enumerate(files):
             if file:
                 n_images += 1
 
-                filename = "Leaf_" + str(i) + ".jpg"
+                filename = "Leaf_" + str(i+1) + ".jpg"
                 image_path = img_path + filename
                 file.save(image_path)
 
                 results = model(image_path)
 
-                for i, r in enumerate(results):
+                predict = [] 
+                for r in results:
                     boxes = r.boxes
                     for cls in boxes.cls:
                         if(cls == 0):
                             bacterial_spot += 1
+                            predict.append("Bacterial Spot")
                         elif(cls == 1):
                             early_blight += 1
+                            predict.append("Early Blight")
                         elif(cls == 2):
                             healthy += 1
+                            predict.append("Healthy")
                         elif(cls == 3):
                             late_blight += 1
+                            predict.append("Late Blight")
                         elif(cls == 4):
                             leaf_miner += 1
+                            predict.append("Leaf Miner")
                         elif(cls == 5):
                             leaf_mold += 1
+                            predict.append("Leaf Mold")
                         elif(cls == 6):
                             mosaic_virus += 1
+                            predict.append("Mosaic Virus")
                         elif(cls == 7):
                             septoria += 1
+                            predict.append("Septoria")
                         elif(cls == 8):
                             spider_mites += 1
+                            predict.append("Spider Mites")
                         elif(cls == 9):
                             yellow_leaf_curl_virus += 1
+                            predict.append("Yellow Leaf Curl Virus")
                         else:
                             no_identity += 1
+                            predict.append("No Identity")
                     
                     im_bgr = r.plot()  
                     im_rgb = Image.fromarray(im_bgr[..., ::-1]) 
 
-                    img_results.append(image_path)
                     im_rgb.save(image_path)
 
-                os.remove(image_path)
+                # os.remove(image_path)
+                detection_result.append({
+                    "index": i+1,
+                    "filename": filename,
+                    "predict": predict,
+                    "image_path": image_path
+                })
 
         message = {
                 'success': True,
-                'img_results': img_results,
+                'detection_results': detection_result,
                 'n_images': n_images,
                 'bacterial_spot': bacterial_spot,
                 'early_blight': early_blight,
